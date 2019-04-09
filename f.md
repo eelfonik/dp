@@ -25,9 +25,18 @@ same keyword is not a coincidence:
 ## function as parameters
 - Function types (EX: int -> int) are *interfaces* (with only one method each) => here we're applying Single Responsibility Principle & Interface Segregation Principle
 
-- Strategy pattern (Deferring the decision about which algorithm to use until runtime) => pass the strategy as param
+- Strategy pattern (Deferring the decision about which algorithm to use until runtime) => pass the strategy function as param
 
 - Decorator pattern (add behaviours to an object without affecting the behaviors of other objects from the same class) => HOC (function as param) or composition (function composition)
 
   N.B. for composition to work, we should make use of currying (partial application) & force every function to have only one param
+
+- Define functions with no params (as a value) or only one param:
+```javascript
+const add = (x, y) => x + y
+// add(2, 1)
+//or
+const add = x => y => x + y
+// add(2)(1)
+```
 
