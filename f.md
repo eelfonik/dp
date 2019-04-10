@@ -31,12 +31,36 @@ same keyword is not a coincidence:
 
   N.B. for composition to work, we should make use of currying (partial application) & force every function to have only one param
 
+### Pattern: Partial Application
 - Define functions with no params (as a value) or only one param:
 ```javascript
 const add = (x, y) => x + y
 // add(2, 1)
+
 //or
 const add = x => y => x + y
-// add(2)(1)
+
+// then we can use partial application
+const add1 = add(1)
+// add1(2) -> 3
+const add4 = add(4)
+// add4(2) -> 6
 ```
+
+### Pattern: Partial Application in list
+- If we take the **Partial Application** to a common case, then lots of methods in js (`map`, `filter`, `reduce`) that works with array(`list` in some other languages) is a *partial application*, that need to pass each item in the array to get the final value.
+
+### Pattern: dependency injection done with partical application
+
+```typescript
+type GetCustomer: Customer = (id: customerId) => Customer
+
+// image you need to connect to a db to get the customer
+const getFromDb = (dbConnection) => (id: customerId) => Customer
+// To confine with the type def of GetCustomer, we can use partial application
+const getCustomer = getFromDb(dbConnection)
+// Then the getCustomer function will have a signature of customerId -> Customer
+```
+
+
 
