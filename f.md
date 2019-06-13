@@ -1,4 +1,10 @@
 # Core principles
+
+## Why we need immutability
+It's kind of weird as mutable variables is a good mapping of the underlying hardware (a memory cell).
+
+But to be able to think about things in a higher abstract way, we try to apply mathematic theories to programming (as they are already proven), and in math, there's no such thing like mutation. 
+
 ## Function are things
 `const a = 1`
 `const b = () => {}`
