@@ -65,8 +65,51 @@ type GetCustomer: Customer = (id: customerId) => Customer
 const getFromDb = (dbConnection) => (id: customerId) => Customer
 // To confine with the type def of GetCustomer, we can use partial application
 const getCustomer = getFromDb(dbConnection)
-// Then the getCustomer function will have a signature of customerId -> Customer
+// Then the getCustomer function will have a signature of customerId -> Customer, and it has a db connection baked in (thus the injection of dependency)
 ```
+
+### Pattern: Hollywood principle (continuation)
+**Don't call us, we'll call you**
+
+Let the caller decide what to do (behaviors) rather than throw an error inside a function
+```typescript
+// normal one
+const divide = (top, bottom) => {
+  if (bottom === 0) {
+    throw new Error('cannot divide')
+  } else {
+    return top/bottom
+  }
+}
+
+//continuation
+const ifZero = () => undefined
+const ifSuccess = (val) => val
+const divide = (ifZero, ifSuccess, top, bottom) => {
+  if (bottom === 0) {
+    ifZero()
+  } else {
+    ifSuccess(top/bottom)
+  }
+}
+// or
+const divide = (ifZero, ifSuccess) => (top, bottom) => {
+  if (bottom === 0) {
+    ifZero()
+  } else {
+    ifSuccess(top/bottom)
+  }
+}
+
+const divide1 = divide(ifZero, ifSuccess)
+// then const result = divide1(top, bottom)
+
+// or if you want, you can pass other functions as the ifZero/ifSuccess
+```
+
+Another example using continuation to do chaining callbacks, see the [continuation test](./continuation.js)
+
+- continuation means never return?
 
 
 
